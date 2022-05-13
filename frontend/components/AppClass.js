@@ -11,36 +11,58 @@ export default class AppClass extends React.Component {
       grid: ['', '', '', '', 'B', '', '', '', ''],
     };
   }
+  
 
   handleUp = () => {
     if (this.state.coordinateY === 1) {
-      this.setState({...this.state, coordinateY: 1, message: "you can't go up"});
+      this.setState({...this.state, 
+        coordinateY: 1, 
+        message: "you can't go up"});
     } else{
     // when you press up, update the Y coordinate to subtract by 1
-    this.setState({...this.state, coordinateY: this.state.coordinateY - 1,  moves: this.state.moves +1, message: ''})
+    this.setState({...this.state, 
+      coordinateY: this.state.coordinateY - 1,  
+      moves: this.state.moves +1, 
+      message: ''})
     }
   }
   handleDown= () => {
     //this checks if the max number has already been reached
     if (this.state.coordinateY === 3) {
-      this.setState({...this.state, coordinateY: 3,  message: "you can't go down"});
+      this.setState({...this.state, 
+        coordinateY: 3,  
+        message: "you can't go down"});
     } else{
     // when you press down, update the Y coordinate to increase by 1
-    this.setState({...this.state, coordinateY: this.state.coordinateY + 1,  moves: this.state.moves +1, message: ''})
+    this.setState({...this.state, 
+      coordinateY: this.state.coordinateY + 1,  
+      moves: this.state.moves +1, 
+      message: ''})
     }
   }
   handleRight = () => {
     if(this.state.coordinateX === 3) {
-      this.setState({...this.state, coordinateX: 3,  message: "you can't go right"});
+      this.setState({...this.state, 
+        coordinateX: 3,  
+        message: "you can't go right"});
     }else{
-      this.setState({...this.setState, coordinateX: this.state.coordinateX + 1,  moves: this.state.moves +1, message: ''})
+      this.setState({...this.setState, 
+        coordinateX: this.state.coordinateX + 1,  
+        moves: this.state.moves +1, 
+        message: ''})
     }
   }
   handleLeft = () => {
     if(this.state.coordinateX === 1) {
-      this.setState({...this.state, coordinateX: 1,  message: "you can't go left"});
+      this.setState({...this.state, 
+        coordinateX: 1,  
+        message: "you can't go left"});
     }else{
-      this.setState({...this.setState, coordinateX: this.state.coordinateX - 1,  moves: this.state.moves +1, message: ''})
+      this.setState({...this.setState, 
+        coordinateX: this.state.coordinateX - 1, 
+        moves: this.state.moves +1,
+        message: '',
+      })
     }
   }
   handleReset = () => {
@@ -49,7 +71,9 @@ export default class AppClass extends React.Component {
       coordinateX: 2,
       coordinateY: 2,
       message: '',
-      moves: 0,})
+      moves: 0,
+      grid: ['', '', '', '', 'B', '', '', '', ''],
+    })
   }
 
 
