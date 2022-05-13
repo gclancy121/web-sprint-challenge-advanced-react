@@ -9,6 +9,7 @@ export default class AppClass extends React.Component {
       message: '',
       moves: 0,
       grid: ['', '', '', '', 'B', '', '', '', ''],
+      value: ''
     };
   }
   
@@ -23,7 +24,8 @@ export default class AppClass extends React.Component {
     this.setState({...this.state, 
       coordinateY: this.state.coordinateY - 1,  
       moves: this.state.moves +1, 
-      message: ''})
+      message: '',
+      });
     }
   }
   handleDown= () => {
@@ -76,6 +78,18 @@ export default class AppClass extends React.Component {
     })
   }
 
+  handleChanges = (evt) => {
+    this.setState({...this.state, value: evt.target.value });
+  }
+
+  handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (this.state.value==='foo@bar.baz') {
+      this.setState({...this.setState, message: 'ERROR! Forbidden email!'})
+    } else {
+    this.setState({...this.state, message: `${this.state.value} wins!` })
+    }
+  }
 
   render() {
     const { className } = this.props
@@ -105,8 +119,13 @@ export default class AppClass extends React.Component {
           <button id="down" onClick={this.handleDown}>DOWN</button>
           <button id="reset" onClick={this.handleReset}>reset</button>
         </div>
-        <form>
-          <input id="email" type="email" placeholder="type email"></input>
+        <form onSubmit = {this.handleSubmit}>
+          <input 
+            id="email" 
+            type="email" 
+            placeholder="type email" 
+            onChange={this.handleChanges}
+            value={this.state.value}></input>
           <input id="submit" type="submit"></input>
         </form>
       </div>
