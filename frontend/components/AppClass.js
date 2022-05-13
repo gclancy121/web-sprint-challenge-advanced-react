@@ -2,10 +2,11 @@ import React from 'react'
 
 export default class AppClass extends React.Component {
   state={
-    coordinates: [2, 2],
+    coordinateX: 2,
+    coordinateY: 2,
     message: '',
     moves: 0,
-    grid: ['', '', '', '', '', '', '', '', ''],
+    grid: ['', '', '', '', 'B', '', '', '', ''],
 
   }
   render() {
@@ -13,14 +14,17 @@ export default class AppClass extends React.Component {
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates ({this.state.coordinates.join(', ')})</h3>
+          <h3 id="coordinates">Coordinates ({this.state.coordinateX}, {this.state.coordinateY})</h3>
           <h3 id="steps">You moved {this.state.moves} times</h3>
         </div>
         <div id="grid">
-          {this.state.grid.map(item => {
+          {this.state.grid.map((item, idx) => {
+            if (item === 'B') {
+              return (<div key = {idx} className = 'square active'>{item}</div>)
+            } else {
             return (
-              <div className="square">{item}</div>
-            )
+              <div key = {idx} className="square">{item}</div>
+            )}
           })}
         </div>
         <div className="info">
