@@ -1,24 +1,27 @@
 import React from 'react'
 
 export default class AppClass extends React.Component {
+  state={
+    coordinates: [2, 2],
+    message: '',
+    moves: 0,
+    grid: ['', '', '', '', '', '', '', '', ''],
+
+  }
   render() {
     const { className } = this.props
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates (2, 2)</h3>
-          <h3 id="steps">You moved 0 times</h3>
+          <h3 id="coordinates">Coordinates ({this.state.coordinates.join(', ')})</h3>
+          <h3 id="steps">You moved {this.state.moves} times</h3>
         </div>
         <div id="grid">
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square active">B</div>
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square"></div>
-          <div className="square"></div>
+          {this.state.grid.map(item => {
+            return (
+              <div className="square">{item}</div>
+            )
+          })}
         </div>
         <div className="info">
           <h3 id="message"></h3>
