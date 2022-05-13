@@ -1,14 +1,58 @@
 import React from 'react'
 
 export default class AppClass extends React.Component {
-  state={
-    coordinateX: 2,
-    coordinateY: 2,
-    message: '',
-    moves: 0,
-    grid: ['', '', '', '', 'B', '', '', '', ''],
-
+  constructor() {
+    super();
+    this.state={
+      coordinateX: 2,
+      coordinateY: 2,
+      message: '',
+      moves: 0,
+      grid: ['', '', '', '', 'B', '', '', '', ''],
+    };
   }
+
+  handleUp = () => {
+    if (this.state.coordinateY === 1) {
+      this.setState({...this.state, coordinateY: 1, message: "you can't go up"});
+    } else{
+    // when you press up, update the Y coordinate to subtract by 1
+    this.setState({...this.state, coordinateY: this.state.coordinateY - 1,  moves: this.state.moves +1, message: ''})
+    }
+  }
+  handleDown= () => {
+    //this checks if the max number has already been reached
+    if (this.state.coordinateY === 3) {
+      this.setState({...this.state, coordinateY: 3,  message: "you can't go down"});
+    } else{
+    // when you press down, update the Y coordinate to increase by 1
+    this.setState({...this.state, coordinateY: this.state.coordinateY + 1,  moves: this.state.moves +1, message: ''})
+    }
+  }
+  handleRight = () => {
+    if(this.state.coordinateX === 3) {
+      this.setState({...this.state, coordinateX: 3,  message: "you can't go right"});
+    }else{
+      this.setState({...this.setState, coordinateX: this.state.coordinateX + 1,  moves: this.state.moves +1, message: ''})
+    }
+  }
+  handleLeft = () => {
+    if(this.state.coordinateX === 1) {
+      this.setState({...this.state, coordinateX: 1,  message: "you can't go left"});
+    }else{
+      this.setState({...this.setState, coordinateX: this.state.coordinateX - 1,  moves: this.state.moves +1, message: ''})
+    }
+  }
+  handleReset = () => {
+    //when you hit reset, it sets the state back to the default position
+    this.setState({
+      coordinateX: 2,
+      coordinateY: 2,
+      message: '',
+      moves: 0,})
+  }
+
+
   render() {
     const { className } = this.props
     return (
@@ -28,14 +72,14 @@ export default class AppClass extends React.Component {
           })}
         </div>
         <div className="info">
-          <h3 id="message"></h3>
+          <h3 id="message">{this.state.message}</h3>
         </div>
         <div id="keypad">
-          <button id="left">LEFT</button>
-          <button id="up">UP</button>
-          <button id="right">RIGHT</button>
-          <button id="down">DOWN</button>
-          <button id="reset">reset</button>
+          <button id="left" onClick={this.handleLeft}>LEFT</button>
+          <button id="up" onClick={this.handleUp}>UP</button>
+          <button id="right" onClick={this.handleRight}>RIGHT</button>
+          <button id="down" onClick={this.handleDown}>DOWN</button>
+          <button id="reset" onClick={this.handleReset}>reset</button>
         </div>
         <form>
           <input id="email" type="email" placeholder="type email"></input>
