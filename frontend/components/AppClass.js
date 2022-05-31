@@ -48,7 +48,7 @@ export default class AppClass extends React.Component {
     if (this.state.coordinateY === 1) {
       this.setState({...this.state, 
         coordinateY: 1, 
-        message: "you can't go up",
+        message: "You can't go up",
         grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY)
       });
     } else{
@@ -67,7 +67,7 @@ export default class AppClass extends React.Component {
     if (this.state.coordinateY === 3) {
       this.setState({...this.state, 
         coordinateY: 3,  
-        message: "you can't go down",
+        message: "You can't go down",
         grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY)
       });
     } else{
@@ -84,7 +84,7 @@ export default class AppClass extends React.Component {
     if(this.state.coordinateX === 3) {
       this.setState({...this.state, 
         coordinateX: 3,  
-        message: "you can't go right",
+        message: "You can't go right",
         grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY)
       });
     }else{
@@ -100,7 +100,7 @@ export default class AppClass extends React.Component {
     if(this.state.coordinateX === 1) {
       this.setState({...this.state, 
         coordinateX: 1,  
-        message: "you can't go left",
+        message: "You can't go left",
         grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY)});
     }else{
       this.setState({...this.setState, 
@@ -128,18 +128,14 @@ export default class AppClass extends React.Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-    const email = evt.target.email.value;
+    const email =this.state.value;
     axios.post(`http://localhost:9000/api/result`, {x: this.state.coordinateX, y: this.state.coordinateY, steps: this.state.moves, email: email})
     .then(res => {
       this.setState({...this.state, message: res.data.message});
     })
     .catch(err => {
      console.log(err.message)
-    if (err.message === "Request failed with status code 403") {
-      this.setState({message: 'foo@bar.baz failure #23'})
-    } else {
-      this.setState({message: err.message})
-    }
+     this.setState({...this.state, message: err.response.data.message})
     })
   }
 

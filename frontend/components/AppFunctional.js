@@ -46,7 +46,7 @@ export default function AppFunctional(props) {
     if(state.coordinateX === 1) {
       setState({...state, 
         coordinateX: 1,  
-        message: "you can't go left",
+        message: "You can't go left",
         grid: gridHandler(state.coordinateX, state.coordinateY)});
     }else{
       setState({...state, 
@@ -61,7 +61,7 @@ export default function AppFunctional(props) {
     if(state.coordinateX === 3) {
       setState({...state, 
         coordinateX: 3,  
-        message: "you can't go right",
+        message: "You can't go right",
         grid: gridHandler(state.coordinateX, state.coordinateY)
       });
     }else{
@@ -77,7 +77,7 @@ export default function AppFunctional(props) {
     if (state.coordinateY === 1) {
       setState({...state, 
         coordinateY: 1, 
-        message: "you can't go up",
+        message: "You can't go up",
         grid: gridHandler(state.coordinateX, state.coordinateY)
       });
     } else{
@@ -96,7 +96,7 @@ export default function AppFunctional(props) {
     if (state.coordinateY === 3) {
       setState({...state, 
         coordinateY: 3,  
-        message: "you can't go down",
+        message: "You can't go down",
         grid: gridHandler(state.coordinateX, state.coordinateY)
       });
     } else{
@@ -123,21 +123,19 @@ export default function AppFunctional(props) {
   const handleChanges = (evt) => {
     setState({...state, value: evt.target.value });
   }
+
+
   const handleSubmit = evt => {
     evt.preventDefault();
-    const email = evt.target.email.value;
+    const email = state.value;
     axios.post(`http://localhost:9000/api/result`, {x: state.coordinateX, y: state.coordinateY, steps: state.moves, email: email})
     .then(res => {
       console.log(res)
       setState({...state, message: res.data.message})
     })
     .catch(err => {
-      console.log(err.message)
-     if (err.message === "Request failed with status code 403") {
-       setState({...state, message: 'foo@bar.baz failure #23'})
-     } else {
-       setState({...state, message: err.message})
-     }
+      console.log(err)
+      setState({...state, message: err.response.data.message})
      })
   }
   return (
