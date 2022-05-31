@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
 
 export default class AppClass extends React.Component {
   constructor() {
@@ -12,58 +13,101 @@ export default class AppClass extends React.Component {
       value: ''
     };
   }
-  
+
+  gridHandler = (coordinateX, coordinateY) => {
+    if (coordinateX === 1 && coordinateY === 1) {
+      return ['B', '', '', '', '', '', '', '', '']
+    }
+    if (coordinateX === 2 && coordinateY === 1) {
+      return ['', 'B', '', '', '', '', '', '', '']
+    }
+     if (coordinateX === 3 && coordinateY === 1) {
+      return ['', '', 'B', '', '', '', '', '', '']
+    }
+    if (coordinateX === 1 && coordinateY === 2) {
+      return ['', '', '', 'B', '', '', '', '', '']
+    }
+    if (coordinateX === 2 && coordinateY === 2) {
+      return ['', '', '', '', 'B', '', '', '', '']
+    }
+    if (coordinateX === 3 && coordinateY === 2) {
+      return ['', '', '', '', '', 'B', '', '', '']
+    }
+    if (coordinateX === 1 && coordinateY === 3) {
+      return ['', '', '', '', '', '', 'B', '', '']
+    }
+    if (coordinateX === 2 && coordinateY === 3) {
+      return ['', '', '', '', '', '', '', 'B', '']
+    }
+    if (coordinateX === 3 && coordinateY === 3) {
+      return ['', '', '', '', '', '', '', '', 'B']
+    }
+  }
 
   handleUp = () => {
     if (this.state.coordinateY === 1) {
       this.setState({...this.state, 
         coordinateY: 1, 
-        message: "you can't go up"});
+        message: "you can't go up",
+        grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY)
+      });
     } else{
     // when you press up, update the Y coordinate to subtract by 1
     this.setState({...this.state, 
       coordinateY: this.state.coordinateY - 1,  
       moves: this.state.moves +1, 
       message: '',
+      grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY -1)
       });
     }
+    
   }
   handleDown= () => {
     //this checks if the max number has already been reached
     if (this.state.coordinateY === 3) {
       this.setState({...this.state, 
         coordinateY: 3,  
-        message: "you can't go down"});
+        message: "you can't go down",
+        grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY)
+      });
     } else{
     // when you press down, update the Y coordinate to increase by 1
     this.setState({...this.state, 
       coordinateY: this.state.coordinateY + 1,  
       moves: this.state.moves +1, 
-      message: ''})
-    }
+      message: '',
+      grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY +1)
+    });
   }
+}
   handleRight = () => {
     if(this.state.coordinateX === 3) {
       this.setState({...this.state, 
         coordinateX: 3,  
-        message: "you can't go right"});
+        message: "you can't go right",
+        grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY)
+      });
     }else{
       this.setState({...this.setState, 
         coordinateX: this.state.coordinateX + 1,  
         moves: this.state.moves +1, 
-        message: ''})
+        message: '',
+        grid: this.gridHandler(this.state.coordinateX +1, this.state.coordinateY)
+      })
     }
   }
   handleLeft = () => {
     if(this.state.coordinateX === 1) {
       this.setState({...this.state, 
         coordinateX: 1,  
-        message: "you can't go left"});
+        message: "you can't go left",
+        grid: this.gridHandler(this.state.coordinateX, this.state.coordinateY)});
     }else{
       this.setState({...this.setState, 
         coordinateX: this.state.coordinateX - 1, 
         moves: this.state.moves +1,
         message: '',
+        grid: this.gridHandler(this.state.coordinateX -1, this.state.coordinateY)
       })
     }
   }
@@ -84,11 +128,19 @@ export default class AppClass extends React.Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-    if (this.state.value==='foo@bar.baz') {
-      this.setState({...this.setState, message: 'ERROR! Forbidden email!'})
+    const email = evt.target.email.value;
+    axios.post(`http://localhost:9000/api/result`, {x: this.state.coordinateX, y: this.state.coordinateY, steps: this.state.moves, email: email})
+    .then(res => {
+      this.setState({...this.state, message: res.data.message});
+    })
+    .catch(err => {
+     console.log(err.message)
+    if (err.message === "Request failed with status code 403") {
+      this.setState({message: 'foo@bar.baz failure #23'})
     } else {
-    this.setState({...this.state, message: `${this.state.value} wins!` })
+      this.setState({message: err.message})
     }
+    })
   }
 
   render() {
