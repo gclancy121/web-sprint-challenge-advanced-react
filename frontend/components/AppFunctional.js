@@ -131,7 +131,7 @@ export default function AppFunctional(props) {
     axios.post(`http://localhost:9000/api/result`, {x: state.coordinateX, y: state.coordinateY, steps: state.moves, email: email})
     .then(res => {
       console.log(res)
-      setState({...state, message: res.data.message})
+      setState({...state, message: res.data.message, value: ''})
     })
     .catch(err => {
       console.log(err)
@@ -142,7 +142,7 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">Coordinates ({state.coordinateX}, {state.coordinateY})</h3>
-        <h3 id="steps">You moved {state.moves} times</h3>
+        <h3 id="steps">You moved {state.moves} time{state.moves === 1 ? '' : "s"}</h3>
       </div>
       <div id="grid">
       {state.grid.map((item, idx) => {

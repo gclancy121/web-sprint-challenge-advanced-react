@@ -119,6 +119,7 @@ export default class AppClass extends React.Component {
       message: '',
       moves: 0,
       grid: ['', '', '', '', 'B', '', '', '', ''],
+      value: ''
     })
   }
 
@@ -131,7 +132,7 @@ export default class AppClass extends React.Component {
     const email =this.state.value;
     axios.post(`http://localhost:9000/api/result`, {x: this.state.coordinateX, y: this.state.coordinateY, steps: this.state.moves, email: email})
     .then(res => {
-      this.setState({...this.state, message: res.data.message});
+      this.setState({...this.state, message: res.data.message, value: ''});
     })
     .catch(err => {
      console.log(err.message)
@@ -145,7 +146,7 @@ export default class AppClass extends React.Component {
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">Coordinates ({this.state.coordinateX}, {this.state.coordinateY})</h3>
-          <h3 id="steps">You moved {this.state.moves} times</h3>
+          <h3 id="steps">You moved {this.state.moves} time{this.state.moves === 1 ? '' : "s"}</h3>
         </div>
         <div id="grid">
           {this.state.grid.map((item, idx) => {
